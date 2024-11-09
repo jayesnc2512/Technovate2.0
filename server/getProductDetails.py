@@ -1,10 +1,11 @@
 import requests
+import json
 
 baseurlOFF = "https://world.openfoodfacts.org/api/v0/product/"
 
 
 baseurlBarcodeLookupp1 = "https://api.barcodelookup.com/v3/products?barcode="
-baseurlBarcodeLookupp2="&formatted=y&key=h0u99z9ceeuvp3xie7g1fg5yoexcvv"
+baseurlBarcodeLookupp2="&formatted=y&key=lt6tlya1cov7z9cjcnsnncrypyptdp"
 
 payload = {}
 headersBarcodeLookup = {
@@ -14,13 +15,16 @@ headersBarcodeLookup = {
 
 
 class ProductDetails:
+
     @staticmethod
     def getDetails(barcode):
         rawDetailsOFF = ProductDetails.getOpenfoodFact(barcode)
         Details = ProductDetails.extract_product_info(rawDetailsOFF)
         if Details == None:
             Details=ProductDetails.getBarcodeLookup(barcode)
+            Details=json.loads(Details)
         print(Details)
+        return Details
         
     @staticmethod
     def getOpenfoodFact(barcode):
@@ -30,7 +34,6 @@ class ProductDetails:
         if response.status_code == 200:
             return response.json()  # Parse JSON directly
         else:
-            print(f"Error fetching data: {response.status_code}")
             return None
     
     @staticmethod
@@ -69,5 +72,5 @@ class ProductDetails:
 
 
 # Test the function
-ProductDetails.getDetails(7622201756697)
+# ProductDetails.getDetails(7622201756697)
  
