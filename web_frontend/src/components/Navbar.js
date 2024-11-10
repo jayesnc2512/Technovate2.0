@@ -1,5 +1,4 @@
-// Updated Navbar.js
-import React from 'react';
+import React, { useState } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -7,18 +6,9 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
-import Badge from '@mui/material/Badge';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import MoreIcon from '@mui/icons-material/MoreVert';
+import CircularProgress from '@mui/material/CircularProgress'; // Import loader
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward'; // Import ArrowForwardIcon for the submit button
-
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -59,200 +49,79 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+export default function PrimarySearchAppBar(props) {
+  const [loading, setLoading] = useState(false); // Loader state
 
-  const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const handleSubmit = async () => {
 
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
+    setLoading(true); // Show loader
+    // alert(props.barcode);
+    try {
+      const response = await fetch('http://127.0.0.1:8000/product-details-web', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ "barcode": `${props.barCode}` }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        // Handle response data here
+        props.setData(data);
+        console.log("Response Data:", data);
+        
+      } else {
+        
+        alert("Error: Failed to fetch data");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Error: Something went wrong");
+    } finally {
+      setLoading(false); // Hide loader
+      props.setIsSubmitted(true);
+      
+    }
   };
-
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-  };
-
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
-
-  const menuId = 'primary-search-account-menu';
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-    </Menu>
-  );
-
-  const mobileMenuId = 'primary-search-account-menu-mobile';
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
-    </Menu>
-  );
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ backgroundColor: '#388e3c' }}>
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { xs: 'none', sm: 'block' } }}
-          >
+          <Typography variant="h6" noWrap component="div" sx={{ display: { xs: 'none', sm: 'block' } }}>
             ECO-CART
           </Typography>
           <Search>
-  <SearchIconWrapper>
-    <QrCodeScannerIcon />
-  </SearchIconWrapper>
-  <StyledInputBase
-    type="number"
-    placeholder="Enter Product Barcode Number"
-    inputProps={{ 'aria-label': 'search' }}
-  />
-
-<IconButton
-    size="small"
-    color="inherit"
-    sx={{
-      position: 'absolute',
-      // right: 0,
-      marginLeft:"10px",
-      top: '50%',
-      transform: 'translateY(-50%)',
-      backgroundColor: 'white',
-      color: '#388e3c',
-      '&:hover': { backgroundColor: '#2e7d32' },
-    }}
-    aria-label="submit barcode"
-  >
-    <ArrowForwardIcon /> {/* Use the ArrowForwardIcon here */}
-  </IconButton>
-          
-  
-</Search>
-
-          <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
-            </IconButton>
+            <SearchIconWrapper>
+              <QrCodeScannerIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              type="number"
+              placeholder="Enter Product Barcode Number"
+              inputProps={{ 'aria-label': 'search' }}
+              onChange={(e) => props.setBarCode(e.target.value)}
+            />
             <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
+              size="small"
               color="inherit"
+              sx={{
+                position: 'absolute',
+                marginLeft: "10px",
+                top: '50%',
+                transform: 'translateY(-50%)',
+                backgroundColor: 'white',
+                color: '#388e3c',
+                '&:hover': { backgroundColor: '#2e7d32' },
+              }}
+              onClick={handleSubmit}
+              aria-label="submit barcode"
             >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
-              </Badge>
+              {loading ? <CircularProgress size={24} color="inherit" /> : <ArrowForwardIcon />}
             </IconButton>
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-          </Box>
-          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </Box>
+          </Search>
         </Toolbar>
       </AppBar>
-      {renderMobileMenu}
-      {renderMenu}
     </Box>
   );
 }

@@ -125,6 +125,9 @@
 import React from 'react';
 import { Card, CardContent, Box, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import NA from "../Image_not_available.png";
+import Tooltip from '@mui/material/Tooltip';
+
 
 const StatusBar = styled('div')(({ theme, statusColor }) => ({
     height: '6px',
@@ -160,7 +163,7 @@ const NumberBox = styled(Box)(({ statusColor }) => ({
     top: '10px',
     right: '10px',
     padding: '8px 14px',
-    backgroundColor: statusColor, // Solid background color based on status
+    backgroundColor: 'statusColor', // Solid background color based on status
     borderRadius: '8px',
     display: 'flex',
     alignItems: 'center',
@@ -213,6 +216,27 @@ const MainCardContainer = styled(Box)({
     marginRight: '5px',
   });
 
+
+function getEcoGradeColor(ecoGrade) {
+    // Lowercase the ecoGrade first
+    ecoGrade = ecoGrade.toLowerCase();
+
+    switch (ecoGrade) {
+        case 'a':
+            return 'green';   // Excellent
+        case 'b':
+            return 'lightgreen';  // Good
+        case 'c':
+            return 'yellow';  // Average
+        case 'd':
+            return 'red';  // Below Average
+        case 'e':
+            return 'red';     // Poor
+        default:
+            return 'gray';    // Invalid grade
+    }
+}
+
 // Function to determine color based on status value
 const getStatusColor = (status) => {
     if (status === 'green') return 'green';
@@ -221,8 +245,75 @@ const getStatusColor = (status) => {
     return 'gray';
 };
 
-export default function MainCard({ imageSrc, name, productInfo, number, status }) {
+// const ingre_score = {
+//     key1: "value1",
+//     key2: "value2",
+//     key3: "value3",
+//     key4: "value4",
+//     key5: "value5",
+//     key6: "value6",
+//     key7: "value7",
+//     key8: "value8",
+//     key9: "value9"
+// };
+
+// Function to format keys in a 3-column table
+function formatIngreScoreTable(ingreScore) {
+    const keys = Object.keys(ingreScore);
+    let rows = [];
+
+    // Divide keys into rows of 3
+    for (let i = 0; i < keys.length; i += 3) {
+        rows.push(keys.slice(i, i + 3));
+    }
+
+    return (
+        <table>
+            <tbody>
+                {rows.map((row, rowIndex) => (
+                    <tr key={rowIndex} style={{fontSize:"15px"}}>
+                        {row.map((key, colIndex) => (
+                            <td key={colIndex}>{key}</td>
+                        ))}
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+    );
+} 
+function formatList(list) {
+    const keys = Object.keys(list);
+    let rows = [];
+
+    // Divide keys into rows of 3
+   
+
+    return (
+        <table>
+            <tbody>
+                {list.map((row, rowIndex) => (
+                    <tr key={rowIndex} style={{ fontSize: "15px" }}>
+                        {list.map((key, colIndex) => (
+                            <td key={colIndex}>{key}</td>
+                        ))}
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+    );
+}
+
+
+export default function MainCard({ imageSrc, name, productInfo, number, status, s_score, eco_grade, co2,
+    sus_comment,ingredients,allergens,categories }) {
     const statusColor = getStatusColor(status);
+    const img = (src) => (src?src:NA)
+
+    const s_score_color = (num) => {
+        if (num >= 60) return 'green';
+        else if (num >= 45) return 'yellow';
+        else return 'red';
+    }
 
     return (
         <StyledCard>
@@ -231,89 +322,80 @@ export default function MainCard({ imageSrc, name, productInfo, number, status }
                 
                 {/* Image and Name Box */}
                 <ImageBox>
-                    <img src={imageSrc} alt="Product" style={{ width: '100%', height: 'auto', borderRadius: '4px' }} />
+                    <img src={img(imageSrc)} alt="Product" style={{ maxWidth: '50vw', height: '300px', borderRadius: '4px' }} />
                     <NameBox variant="subtitle2">{name}</NameBox>
                 </ImageBox>
 
                 {/* Product Details Box */}
-                <DetailsBox>
+                <DetailsBox zIndex={0}>
                     <Typography variant="h6" gutterBottom>
                         Product Information
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" color="text.secondary" style={{ fontSize: "15px" }}>
                         {productInfo}
                     </Typography>
-                </DetailsBox>
-
-                {/* Number Box with Eco Score */}
-                <NumberBox statusColor={statusColor}>
-                    <Typography variant="body2" color="inherit">
-                        {number}
+                    <Typography variant="h6" gutterBottom>
+                        Why?
                     </Typography>
-                </NumberBox>
+                    <Typography variant="body2" color="text.secondary" style={{ fontSize: "15px" }}>
+                        {sus_comment}
+                    </Typography>
+                    {ingredients && 
+                        <>
+                    <Typography variant="h6" gutterBottom>
+                        Ingredients
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                            {ingredients}
+                        </Typography>
+                        </>
+                    }
+                    {(categories && categories?.length !== 0) && 
+                        <>
+                    <Typography variant="h6" gutterBottom>
+                        Categories
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" style={{ fontSize: "15px" }}>
+                            {categories}
+                    </Typography>
+                    </>
+                    }
+                    {(allergens && allergens?.length !== 0) &&
+                        <>
+                            <Typography variant="h6" gutterBottom>
+                                Allergens
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary" style={{ fontSize: "15px" }}>
+                               {allergens}
+                            </Typography>
+                        </>
+                    }
+
+                </DetailsBox>
+                {/* Number Box with Eco Score */}
+                <Tooltip title="Sustainability Score">
+
+                    <NumberBox backgroundColor={s_score_color(s_score)}>
+                    <Typography variant="body2" color="inherit">
+                        {s_score}
+                    </Typography>
+                    </NumberBox>
+                </Tooltip>
+                <Tooltip title="Carbon_footprint per kg in kg">
+                    <NumberBox backgroundColor={()=>s_score_color(s_score)} marginRight="100px">
+                    <Typography variant="body2" color="inherit">
+                        {co2}
+                    </Typography>
+                    </NumberBox>
+                </Tooltip>
+                <Tooltip title="Eco_Grade">
+                    <NumberBox backgroundColor={getEcoGradeColor(eco_grade)} marginRight="50px">
+                    <Typography variant="body2" color="inherit">
+                        {eco_grade}
+                    </Typography>
+                    </NumberBox>
+                    </Tooltip>
             </CardContent>
         </StyledCard>
     );
 }
-
-// import React from 'react';
-// import { Box, Typography } from '@mui/material';
-// import styled from '@emotion/styled';
-
-// const MainCardContainer = styled(Box)({
-//   position: 'relative',
-//   width: '100%',
-//   padding: '20px',
-//   boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
-//   borderRadius: '8px',
-//   backgroundColor: '#fff',
-// });
-
-// const ScoreBoxContainer = styled(Box)({
-//   position: 'absolute',
-//   top: '10px',
-//   right: '10px',
-//   display: 'flex',
-//   flexDirection: 'column',
-//   gap: '5px', // Adds spacing between the boxes
-// });
-
-// const ScoreBox = styled(Box)({
-//   padding: '5px 10px',
-//   backgroundColor: '#ddd',
-//   borderRadius: '4px',
-//   display: 'flex',
-//   alignItems: 'center',
-//   justifyContent: 'space-between',
-//   minWidth: '100px',
-// });
-
-// const ScoreLabel = styled(Typography)({
-//   fontSize: '0.8rem',
-//   fontWeight: 'bold',
-//   marginRight: '5px',
-// });
-
-// const MainCard = ({ product }) => {
-//   return (
-//     <MainCardContainer>
-//       {/* Other Main Card content goes here */}
-      
-//       {/* Score Boxes */}
-//       <ScoreBoxContainer>
-//         <ScoreBox>
-//           <ScoreLabel>Eco Score:</ScoreLabel> {product.ecoScore}
-//         </ScoreBox>
-//         <ScoreBox>
-//           <ScoreLabel>Eco Grid:</ScoreLabel> {product.ecoGrid}
-//         </ScoreBox>
-//         <ScoreBox>
-//           <ScoreLabel>Carbon Footprint:</ScoreLabel> {product.carbonFootprint}
-//         </ScoreBox>
-//       </ScoreBoxContainer>
-//     </MainCardContainer>
-//   );
-// };
-
-// export default MainCard;
-

@@ -1,0 +1,71 @@
+{
+    "product_name": "Oreo",
+    "product_description": "Refined Wheat Flour (Maida), Sugar, Fractionated Fat, Palmolein, Invert Sugar, Cocca Solids (2%), Leavening Agents (500(i), 503(ii)), Starch, lodised Salt, Emulsifier (322), Nature Identical Flavouring Substances. *T&C apply Allergen Information: Contains Wheat, Sulphite, Soy. May Contain Milk and Barley. er day",
+    "categories": [
+        "en:snacks",
+        "en:sweet-snacks",
+        "en:biscuits-and-cakes",
+        "en:biscuits",
+        "en:filled-biscuits",
+        "en:biscuit-cookie-snack-w-chocolate-filling"
+    ],
+    "brands": [
+        "cadbury"
+    ],
+    "allergens": [
+        "en:gluten",
+        "en:soybeans",
+        "en:sulphur-dioxide-and-sulphites"
+    ],
+    "ingredients": [
+        "Refined Wheat Flour",
+        "Sugar",
+        "Fractionated Fat",
+        "Palmolein",
+        "Invert Sugar",
+        "Cocca Solids",
+        "Leavening Agents",
+        "Starch",
+        "lodised Salt",
+        "Emulsifier",
+        "Nature Identical Flavouring Substances",
+        "er day",
+        "Maida",
+        "500",
+        "503",
+        "322",
+        "i",
+        "ii"
+    ],
+    "eco_grade": "e",
+    "carbon_footprint": 5.848293084,
+    "carbon_footprint_description": "The carbon footprint is calculated based on the product's ingredients and packaging.",
+    "sustainability_score": 27,
+    "country_of_origin": [
+        "en:india"
+    ],
+    "product_quantity": 43.75,
+    "product_quantity_unit": "g",
+    "sus_comment": "Oreo contains palm oil, which can contribute to deforestation and habitat loss. The use of refined wheat flour and sugar also contributes to environmental issues.  However, the presence of recycled packaging could slightly improve its sustainability.",
+    "ingre_score": null,
+    "alternate": [
+        {
+            "name": "Clif Kid ZBar Organic Granola Bar, Variety Pack, 1.27 oz, 36-count",
+            "image_link": "https://bfasset.costco-static.com/U447IH35/as/vk7p395gnbt7gqk738v6p/986292-847__1?auto=webp&format=jpg&width=350&height=350&fit=bounds&canvas=350,350",
+            "prod_url": "https://www.costco.com/clif-kid-zbar-organic-granola-bar%2C-variety-pack%2C-1.27-oz%2C-36-count.product.100403275.html",
+            "product_description": "Made with organic ingredients and less sugar than traditional chocolate chip cookies, they provide a healthier snack option."
+        },
+        {
+            "name": "Organic Friends Honey Bunny Grahams",
+            "image_link": "https://prodcontent.annies.com/wp-content/uploads/2022/03/Annies-Friends-Bunny-Grahams-460x460-1.png",
+            "prod_url": "https://www.annies.com/products/organic-friends-bunny-grahams",
+            "product_description": "These graham crackers are made with organic whole wheat flour and contain no artificial flavors or preservatives."
+        },
+        {
+            "name": "Simple Mills Almond Flour Crackers, Fine Ground Sea Salt - Gluten Free, Vegan, Healthy Snacks, 4.25 Ounce (Pack of 1)",
+            "image_link": "https://m.media-amazon.com/images/I/71-oG6pOG2S._AC_UF894,1000_QL80_.jpg",
+            "prod_url": "https://www.amazon.com/Simple-Mills-Almond-Crackers-Naturally/dp/B01M5HRU6U",
+            "product_description": "These crackers are made with almond flour, which is a more sustainable alternative to wheat flour. They are also gluten-free and contain no added sugars."
+        }
+    ]
+}

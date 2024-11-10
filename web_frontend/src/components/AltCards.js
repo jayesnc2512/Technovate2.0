@@ -23,6 +23,7 @@ const EcoCard = styled(Card)({
   borderRadius: '8px',
   boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
   overflow: 'hidden',
+  cursor: 'pointer', // Added for indicating clickable elements
 });
 
 const ColorBar = styled(Box)({
@@ -36,8 +37,9 @@ const ColorBar = styled(Box)({
 
 const ImageBox = styled(Box)({
   width: '100%',
-  height: '200px',
+  height: '150px', // Adjusted to a smaller height for compact display
   overflow: 'hidden',
+  cursor: 'pointer', // Adds a pointer cursor to indicate clickable action
 });
 
 const ProductName = styled(Typography)({
@@ -46,6 +48,7 @@ const ProductName = styled(Typography)({
   margin: '10px 0',
   textAlign: 'center',
   color: '#004d40', // Dark teal for product name
+  cursor: 'pointer', // Cursor pointer for clickability
 });
 
 const ExpandableContent = styled(Box)({
@@ -58,7 +61,6 @@ const ExpandableContent = styled(Box)({
 });
 
 const ExpandButton = styled(Button)({
-  
   margin: '10px auto',
   backgroundColor: '#81c784', // Light green button for expand
   color: '#fff',
@@ -67,41 +69,31 @@ const ExpandButton = styled(Button)({
     backgroundColor: '#66bb6a',
   },
 });
-const ScoreBoxContainer = styled(Box)({
-    position: 'absolute',
-    top: '10px',
-    right: '10px',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '5px', // Space between boxes
-  });
-  
-  const ScoreBox = styled(Box)({
-    padding: '5px 10px',
-    backgroundColor: '#f1f8e9', // Light green background
-    color: '#388e3c', // Dark green text
-    borderRadius: '4px',
-    fontWeight: 'bold',
-    display: 'flex',
-    alignItems: 'center',
-    fontSize: '12px', // Smaller font size for compact display
-  });
-  
-  const ScoreLabel = styled(Typography)({
-    fontSize: '12px',
-    marginRight: '5px',
-    fontWeight: 'normal',
-  });
 
-const EcoScoreBox = styled(Box)({
+const ScoreBoxContainer = styled(Box)({
   position: 'absolute',
   top: '10px',
   right: '10px',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '5px', // Space between boxes
+});
+
+const ScoreBox = styled(Box)({
   padding: '5px 10px',
   backgroundColor: '#f1f8e9', // Light green background
-  color: '#388e3c', // Dark green for eco score text
-  borderRadius: '8px',
+  color: '#388e3c', // Dark green text
+  borderRadius: '4px',
   fontWeight: 'bold',
+  display: 'flex',
+  alignItems: 'center',
+  fontSize: '12px', // Smaller font size for compact display
+});
+
+const ScoreLabel = styled(Typography)({
+  fontSize: '12px',
+  marginRight: '5px',
+  fontWeight: 'normal',
 });
 
 const AltCards = ({ products }) => {
@@ -111,86 +103,57 @@ const AltCards = ({ products }) => {
     setExpandedIndex(expandedIndex === index ? null : index);
   };
 
-  return (
-    // <Box>
-    //   <Title>Alternate Products</Title>
-    //   <Grid container spacing={3} padding="0 20px">
-    //     {products.map((product, index) => (
-    //       <Grid item xs={12} sm={6} md={4} key={index}>
-    //         <EcoCard>
-    //           <ColorBar />
-    //           <ImageBox>
-    //             <CardMedia
-    //               component="img"
-    //               image={product.imageUrl}
-    //               alt={product.name}
-    //               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-    //             />
-    //           </ImageBox>
-    //           <ProductName>{product.name}</ProductName>
-    //           <EcoScoreBox>{product.ecoScore}</EcoScoreBox>
-    //           <ExpandButton onClick={() => handleExpandClick(index)}>
-    //             {expandedIndex === index ? 'Collapse' : 'Expand'}
-    //           </ExpandButton>
-    //           <ExpandableContent
-    //             style={{ maxHeight: expandedIndex === index ? '150px' : '0' }}
-    //           >
-    //             <CardContent>
-    //               <Typography variant="body2" color="text.secondary">
-    //                 {product.description}
-    //               </Typography>
-    //             </CardContent>
-    //           </ExpandableContent>
-    //         </EcoCard>
-    //       </Grid>
-    //     ))}
-    //   </Grid>
-    // </Box>
-    <Box>
-    <Title>Alternate Products</Title>
-    <Grid container spacing={2} padding="0 10px" justifyContent="center">
-  {products.map((product, index) => (
-    <Grid item xs={12} sm={6} md={4} key={index}> {/* Set to md={4} for three cards per row */}
-      <EcoCard>
-        <ColorBar style={{ backgroundColor: 'green' }} />
-        <ImageBox>
-          <CardMedia
-            component="img"
-            image={product.imageUrl}
-            alt={product.name}
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-          />
-        </ImageBox>
-        <ProductName>{product.name}</ProductName>
-        <ScoreBoxContainer>
-          <ScoreBox>
-            <ScoreLabel>Eco Score:</ScoreLabel> {product.ecoScore}
-          </ScoreBox>
-          <ScoreBox>
-            <ScoreLabel>Eco Grid:</ScoreLabel> {product.ecoGrid}
-          </ScoreBox>
-          <ScoreBox>
-            <ScoreLabel>Carbon Footprint:</ScoreLabel> {product.carbonFootprint}
-          </ScoreBox>
-        </ScoreBoxContainer>
-        <ExpandButton onClick={() => handleExpandClick(index)}>
-          {expandedIndex === index ? 'Collapse' : 'Expand'}
-        </ExpandButton>
-        <ExpandableContent
-          style={{ maxHeight: expandedIndex === index ? '150px' : '0' }}
-        >
-          <CardContent>
-            <Typography variant="body2" color="text.secondary">
-              {product.description}
-            </Typography>
-          </CardContent>
-        </ExpandableContent>
-      </EcoCard>
-    </Grid>
-  ))}
-</Grid>
+  const openProductLink = (url) => {
+    window.open(url, '_blank');
+  };
 
-  </Box>
+  return (
+    <Box pd="20">
+      <Title>Alternate Products</Title>
+      <Grid container spacing={2} padding="0 10px" justifyContent="center">
+        {products?.map((product, index) => (
+          <Grid item xs={12} sm={6} md={4} key={index}> {/* Set to md={4} for three cards per row */}
+            <EcoCard>
+              <ColorBar style={{ backgroundColor: 'green' }} />
+              <ImageBox onClick={() => window.open(product.prod_url, '_blank')} pt="10px">
+                <CardMedia
+                  component="img"
+                  image={product.image_link}
+                  alt={product.name}
+                  style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                />
+              </ImageBox>
+              <ProductName onClick={() => openProductLink(product.prod_url)}>
+                {product.name}
+              </ProductName>
+              {/* <ScoreBoxContainer>
+                <ScoreBox>
+                  <ScoreLabel>Eco Score:</ScoreLabel> {product.ecoScore}
+                </ScoreBox>
+                <ScoreBox>
+                  <ScoreLabel>Eco Grid:</ScoreLabel> {product.ecoGrid}
+                </ScoreBox>
+                <ScoreBox>
+                  <ScoreLabel>Carbon Footprint:</ScoreLabel> {product.carbonFootprint}
+                </ScoreBox>
+              </ScoreBoxContainer> */}
+              <ExpandButton onClick={() => handleExpandClick(index)}>
+                {expandedIndex === index ? 'Collapse' : 'Expand'}
+              </ExpandButton>
+              <ExpandableContent
+                style={{ maxHeight: expandedIndex === index ? '150px' : '0' }}
+              >
+                <CardContent>
+                  <Typography variant="body2" color="text.secondary">
+                    {product.product_description}
+                  </Typography>
+                </CardContent>
+              </ExpandableContent>
+            </EcoCard>
+          </Grid>
+        ))}
+      </Grid>
+    </Box>
   );
 };
 
