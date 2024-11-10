@@ -13,7 +13,13 @@ from fastapi.middleware.cors import CORSMiddleware
 # Configure CORS settings
 origins = [
     "http://localhost:3000",  # Example for local frontend
-    "https://your-frontend-domain.com",  # Replace with your actual frontend URL
+    "https://your-frontend-domain.com",  
+    "http://10.0.2.2:3000",    # Emulator network for Android
+    "http://127.0.0.1:3000",
+    "http://192.168.137.1:8000",   # Another local address
+    "exp://127.0.0.1:19000",   # Expo Go localhost URL
+    "exp://192.168.137.1:8000",
+     "http://192.168.204.190:8081" # Replace with your local IP# Replace with your actual frontend URL
     # Add other allowed origins here
 ]
 

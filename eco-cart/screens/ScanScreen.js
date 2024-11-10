@@ -1,7 +1,14 @@
 import { CameraView, CameraProps, useCameraPermissions } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
+import { launchImageLibrary } from 'react-native-image-picker';
+import * as FileSystem from 'expo-file-system';
+
 import { useState, useEffect, useRef } from 'react';
 import { Button, StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
+import axios from 'axios';
+// import RNFS from 'react-native-fs';
+
+
 
 export default function App() {
   // Camera reference for accessing CameraView methods
@@ -27,6 +34,33 @@ export default function App() {
 
     getSizes();
   }, [permission]);
+  const uploadImage = async (uri) => {
+    try {
+      // Read the image as base64
+      console.log('Image URI:', uri); 
+      const base64Image = await FileSystem.readAsStringAsync(uri, {
+        encoding: FileSystem.EncodingType.Base64,
+      });
+
+      // Prepare the data to be sent as URL-encoded form data
+      const data = new URLSearchParams();
+      data.append('image_base64', base64Image);
+
+      // Send POST request with the base64-encoded image
+      const response = await axios.post('http://192.168.26.190:8000/product-details', data.toString(), {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json',
+        },
+      });
+
+      setBarcodeData(response.data); // Handle the response data
+    } catch (error) {
+      console.error('Error uploading image:', error.message || error);
+      alert('An error occurred while uploading the image.');
+    }
+  };
+
 
   // Handle permission status
   if (!permission) {
@@ -59,7 +93,8 @@ export default function App() {
     });
 
     if (!result.canceled) {
-      setImageUri(result.uri); // Store the selected image URI
+      setImageUri(result.uri);
+      uploadImage(result.uri); // Store the selected image URI
     }
   };
 
@@ -93,17 +128,17 @@ export default function App() {
             }
           }}
         />
-        
+
         {/* Separator */}
         <View style={{ height: 1, backgroundColor: '#eee', marginVertical: 20 }} />
 
         {/* Upload Image Button */}
         {/* <Button title="Upload Image" onPress={pickImage} style={styles.button} /> */}
         <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.button_upload} onPress={pickImage}>
-              <Text style={styles.text}>Upload Image</Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity style={styles.button_upload} onPress={pickImage}>
+            <Text style={styles.text}>Upload Image</Text>
+          </TouchableOpacity>
+        </View>
 
         {/* Display the selected image */}
         {imageUri && <Image source={{ uri: imageUri }} style={styles.imagePreview} />}

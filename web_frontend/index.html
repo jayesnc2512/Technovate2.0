@@ -1,0 +1,81 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoCart</title>
+    <script src="https://unpkg.com/react/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></link>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-white">
+    <div id="root"></div>
+    <script type="text/babel">
+        const App = () => {
+            return (
+                <div className="flex flex-col items-center">
+                    <header className="w-full flex justify-between items-center p-4 bg-white shadow-md">
+                        <div className="flex items-center">
+                            <img src="./images/logo.png" alt="EcoCart logo" className="mr-2"/>
+                            <h1 className="text-2xl font-bold">EcoCart</h1>
+                        </div>
+                        <div className="flex items-center">
+                            <button className="mr-4 text-green-600"><i className="fas fa-heart"></i> Favorites</button>
+                            <button className="flex items-center">
+                                <img src="./images/heading char.png" alt="Guest avatar" className="rounded-full mr-2"/>
+                                <span>Guest</span>
+                            </button>
+                        </div>
+                    </header>
+                    <main className="w-full max-w-5xl p-4">
+                        <section className="text-center my-8">
+                            <h2 className="text-3xl font-bold mb-4">Redefine Your Choices with Eco-Friendly Products That Care for Our Planet and Inspire a Greener Future for All</h2>
+
+                        </section>
+                        <section className="grid grid-cols-2 gap-4 mb-8">
+                            <img src="./images/unsplash_-NPqKSDydY0.png" alt="Person scanning product with barcode scanner" className="rounded shadow-md"/>
+                            <img src="./images/im2.png" alt="Mobile phone displaying a barcode scanning app" className="rounded shadow-md"/>
+                            <img src="./images/im3.png" alt="Person holding a mobile phone with a scanning app" className="rounded shadow-md"/>
+                            <img src="./images/im4.png" alt="Person in a warehouse with eco-friendly products" className="rounded shadow-md"/>
+                        </section>
+                        <section className="bg-green-600 text-white p-4 rounded mb-8">
+                            <h3 className="text-2xl font-bold mb-2">What is Eco Score?</h3>
+                            <p className="mb-4">It gives you a score (grade from A to E) to show how much impact the product has on the environment, helps you make greener, more planet-friendly choices by showing you at a glance how sustainable a product is.</p>
+                            <img src="./images/im5.png" alt="Eco score grades from A to E" className="mx-auto"/>
+                        </section>
+                        <section className="bg-green-600 text-white p-4 rounded mb-8">
+                            <h3 className="text-2xl font-bold mb-2">What is carbon Footprint?</h3>
+                            <p className="mb-4">A carbon footprint is the total amount of carbon dioxide (CO2) and other greenhouse gases that are released into the air because of human activities, like driving a car, using electricity, or making things. These gases trap heat in the Earth's atmosphere, which contributes to climate change.</p>
+                            <img src="./images/im6.png" alt="Infographic showing ways to reduce carbon footprint" className="mx-auto"/>
+                        </section>
+                        <section className="text-center mb-8">
+                            <h3 className="text-2xl font-bold mb-4">CONTACT</h3>
+                            <p className="mb-4">Interested in discussing?</p>
+                            <form className="grid grid-cols-2 gap-4">
+                                <input type="text" placeholder="Enter name" className="p-2 border rounded"/>
+                                <input type="email" placeholder="Enter Email" className="p-2 border rounded"/>
+                                <input type="text" placeholder="Enter Subject" className="p-2 border rounded"/>
+                                <input type="tel" placeholder="Enter Phone Number" className="p-2 border rounded"/>
+                                <textarea placeholder="Enter Message" className="col-span-2 p-2 border rounded"></textarea>
+                                <button type="submit" className="col-span-2 bg-green-600 text-white py-2 rounded">Send Your Message</button>
+                            </form>
+                        </section>
+                    </main>
+                    <footer className="w-full bg-gray-800 text-white text-center py-4">
+                        <p>© EcoCart 2024, All Rights Reserved</p>
+                    </footer>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>

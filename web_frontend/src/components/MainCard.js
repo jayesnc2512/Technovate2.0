@@ -373,28 +373,34 @@ export default function MainCard({ imageSrc, name, productInfo, number, status, 
 
                 </DetailsBox>
                 {/* Number Box with Eco Score */}
-                <Tooltip title="Sustainability Score">
+                {s_score &&
+                    <Tooltip title="Sustainability Score">
 
-                    <NumberBox backgroundColor={s_score_color(s_score)}>
-                    <Typography variant="body2" color="inherit">
-                        {s_score}
-                    </Typography>
-                    </NumberBox>
-                </Tooltip>
-                <Tooltip title="Carbon_footprint per kg in kg">
-                    <NumberBox backgroundColor={()=>s_score_color(s_score)} marginRight="100px">
-                    <Typography variant="body2" color="inherit">
-                        {co2}
-                    </Typography>
-                    </NumberBox>
-                </Tooltip>
-                <Tooltip title="Eco_Grade">
-                    <NumberBox backgroundColor={getEcoGradeColor(eco_grade)} marginRight="50px">
-                    <Typography variant="body2" color="inherit">
-                        {eco_grade}
-                    </Typography>
-                    </NumberBox>
+                        <NumberBox backgroundColor={s_score_color(s_score)}>
+                            <Typography variant="body2" color="inherit">
+                                {s_score}
+                            </Typography>
+                        </NumberBox>
                     </Tooltip>
+                }
+                {co2 &&
+                    <Tooltip title="Carbon_footprint per kg in kg">
+                        <NumberBox backgroundColor={() => s_score_color(s_score)} marginRight="100px">
+                            <Typography variant="body2" color="inherit">
+                                {co2}
+                            </Typography>
+                        </NumberBox>
+                    </Tooltip>
+                }
+                {eco_grade &&
+                    <Tooltip title="Eco_Grade">
+                        <NumberBox backgroundColor={getEcoGradeColor(eco_grade)} marginRight="50px">
+                            <Typography variant="body2" color="inherit">
+                                {eco_grade}
+                            </Typography>
+                        </NumberBox>
+                    </Tooltip>
+                }
             </CardContent>
         </StyledCard>
     );

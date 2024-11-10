@@ -157,7 +157,7 @@ const App = () => {
               status="red"
              
               sus_comment={data.sus_comment}
-              ingredients={data.ingre_score||data.ingredients}
+              ingredients={data.ingredients ?  data.ingredients:null}
               categories={data.categories}
               allergens={data.allergens}
               
